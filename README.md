@@ -39,7 +39,7 @@ git submodule update --init --recursive
 
 ## Quickstart
 
-On the robot hardware, start the robot-side service:
+On the robot hardware, make sure the robot-side service is running:
 
 ```bash
 cd robot_service
@@ -48,7 +48,7 @@ make up
 make logs
 ```
 
-`make up` starts the robot service in the background. `make logs` is optional, but useful to confirm it is alive and publishing status.
+`make up` starts the robot service in the background. `make logs` is optional, but useful to confirm it is alive and publishing status. After the container has been created once, Docker is configured to restart it automatically unless it was explicitly stopped.
 
 On the operator PC, start the operator client:
 
@@ -66,7 +66,7 @@ Starting the services does not trigger a stop by itself. The stop command is onl
 
 Recommended runtime flow:
 
-1. On the robot hardware, start `go2w_estop_robot`.
+1. On the robot hardware, make sure `go2w_estop_robot` is running.
 2. On the operator PC, start `go2w_estop_operator`.
 3. Wait for the operator UI to appear and confirm:
    - `Connection         : CONNECTED`
