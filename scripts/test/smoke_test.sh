@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-UNITREE_API_PATH="${UNITREE_API_PATH:-/home/user/ws/unitree_ros2/cyclonedds_ws/src/unitree/unitree_api}"
+UNITREE_API_PATH="${UNITREE_API_PATH:-$REPO_ROOT/third_party/unitree_ros2/cyclonedds_ws/src/unitree/unitree_api}"
 
 source_ros() {
   for setup in /opt/ros/humble/setup.bash /opt/ros/jazzy/setup.bash; do
@@ -27,6 +27,14 @@ build_workspace_if_needed() {
   fi
 }
 
+ensure_unitree_api_path() {
+  if [ ! -d "$UNITREE_API_PATH" ]; then
+    echo "Missing unitree_api at: $UNITREE_API_PATH" >&2
+    echo "Run: git submodule update --init --recursive" >&2
+    exit 1
+  fi
+}
+
 cleanup() {
   if [ -n "${ROBOT_PID:-}" ] && kill -0 "$ROBOT_PID" 2>/dev/null; then
     kill "$ROBOT_PID" || true
@@ -37,6 +45,7 @@ cleanup() {
 trap cleanup EXIT
 
 source_ros
+ensure_unitree_api_path
 build_workspace_if_needed
 # shellcheck disable=SC1091
 source "$REPO_ROOT/install/setup.bash"

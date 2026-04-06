@@ -4,15 +4,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       ros-humble-rmw-cyclonedds-cpp \
       ros-humble-rosidl-generator-dds-idl \
       python3-colcon-common-extensions \
-      git \
     && rm -rf /var/lib/apt/lists/*
-
-RUN git clone --depth 1 https://github.com/koki67/unitree_ros2.git \
-      /ros2_ws/src/unitree_ros2 \
-    && rm -rf /ros2_ws/src/unitree_ros2/.git
 
 COPY estop_interfaces/ /ros2_ws/src/estop_interfaces/
 COPY robot_service/ /ros2_ws/src/go2w_estop_robot/
+COPY third_party/unitree_ros2/ /ros2_ws/src/unitree_ros2/
 
 WORKDIR /ros2_ws
 
