@@ -1,0 +1,14 @@
+go2w_estop_operator_node:
+  ros__parameters:
+    protective_stop_topic: /estop/protective_stop
+    hard_stop_topic: /estop/hard_stop
+    status_topic: /estop/status
+    expected_nic: enp97s0
+    nic_exclude_prefixes:
+      - docker
+      - veth
+      - br-
+      - virbr
+      - lxc
+    validate_nic_on_startup: true
+    status_stale_after_sec: 2.0

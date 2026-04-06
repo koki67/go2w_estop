@@ -1,0 +1,20 @@
+services:
+  estop_operator:
+    build:
+      context: ../..
+      dockerfile: operator_client/docker/Dockerfile
+    image: go2w_estop_operator:humble
+    container_name: go2w_estop_operator
+    network_mode: host
+    environment:
+      - RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - >-
+        CYCLONEDDS_URI=<CycloneDDS><Domain><General><Interfaces><NetworkInterface name="${ESTOP_EXPECTED_NIC:-enp97s0}" priority="default" multicast="default" /></Interfaces></General></Domain></CycloneDDS>
+    command: >
+      ros2 launch go2w_estop_operator operator_client.launch.py
+      expected_nic:=${ESTOP_EXPECTED_NIC:-enp97s0}
+      validate_nic_on_startup:=${ESTOP_VALIDATE_NIC:-true}
+    restart: "no"
+    stdin_open: true
+    tty: true

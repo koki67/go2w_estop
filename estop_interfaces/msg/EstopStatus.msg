@@ -1,0 +1,6 @@
+string current_state
+string last_trigger_type
+bool latched
+builtin_interfaces/Time last_status_timestamp
+string error_text
+string asserted_robot_action

@@ -1,0 +1,8 @@
+go2w_estop_robot_node:
+  ros__parameters:
+    protective_stop_topic: /estop/protective_stop
+    hard_stop_topic: /estop/hard_stop
+    status_topic: /estop/status
+    sport_request_topic: /api/sport/request
+    assert_rate_hz: 5.0
+    status_rate_hz: 2.0
