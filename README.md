@@ -2,6 +2,8 @@
 
 Virtual emergency stop system for the Unitree GO2-W.
 
+Experimental software-only project. Not a certified safety system and not a substitute for a physical emergency stop.
+
 The system has two ROS 2 components:
 
 - `go2w_estop_robot` runs on the Jetson and latches a Balance Stand override after a trigger.
