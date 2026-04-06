@@ -39,7 +39,7 @@ git submodule update --init --recursive
 
 ## Quickstart
 
-Robot service in Docker:
+On the robot hardware, start the robot-side service:
 
 ```bash
 cd robot_service
@@ -48,13 +48,44 @@ make up
 make logs
 ```
 
-Operator client in Docker:
+`make up` starts the robot service in the background. `make logs` is optional, but useful to confirm it is alive and publishing status.
+
+On the operator PC, start the operator client:
 
 ```bash
 cd operator_client
 make build
 ESTOP_EXPECTED_NIC=enp97s0 make up
 ```
+
+`make up` for the operator client stays attached and opens the curses UI in that same terminal. That operator-side terminal is where `Space`, `Esc`, and `q` are read.
+
+## How To Use It
+
+Starting the services does not trigger a stop by itself. The stop command is only sent after the operator UI is visible on the operator PC and you press a key there.
+
+Recommended runtime flow:
+
+1. On the robot hardware, start `go2w_estop_robot`.
+2. On the operator PC, start `go2w_estop_operator`.
+3. Wait for the operator UI to appear and confirm:
+   - `Connection         : CONNECTED`
+   - `Current state      : READY`
+4. Press `Space` in the operator UI for a protective stop.
+5. Press `Esc` in the operator UI for a hard stop.
+
+What each key does:
+
+- `Space` publishes a protective stop.
+- `Esc` publishes a hard stop.
+- `q` quits the operator client only. It does not clear a latched stop.
+
+What happens after a trigger:
+
+- The robot-side service latches the stop and keeps asserting Balance Stand at 5 Hz.
+- The latched stop remains active until the robot is power-cycled.
+
+If the operator UI does not appear, the most likely cause is NIC validation failure. By default the operator client expects `enp97s0`.
 
 ## Local Build
 
